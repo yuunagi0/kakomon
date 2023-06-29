@@ -1,17 +1,35 @@
+import re
 import urllib.parse
 import webbrowser
 import PySimpleGUI as sg
 
 
 def main():
+    # List of exams available
+    exams = [
+        {'key': 'ip', 'name': 'ITパスポート', 'url': 'https://itpassportsiken.com/kakomon'},
+        {'key': 'sg', 'name': '情報セキュリティマネジメント試験', 'url': 'https://sg-siken.com/kakomon'},
+        {'key': 'fe', 'name': '基本情報技術者試験', 'url': 'https://fe-siken.com/kakomon'},
+        {'key': 'ap', 'name': '応用情報技術者試験', 'url': 'https://ap-siken.com/kakomon'}
+    ]
+
+    # Show checkboxes for each exam
+    column_size = 2
+    exam_checkboxes = []
+    for s in range(0, len(exams), column_size):
+        checkbox_slice = exams[s:s + column_size]
+        row = []
+        for exam in checkbox_slice:
+            row.append(sg.Checkbox(exam['name'], key=exam['key']))
+        exam_checkboxes.append(row)
+
     # Set window layout
     layout = [
         # Show input box
         [sg.Input(key='word')],
         # Show checkboxes for each exam
-        [sg.Checkbox('ITパスポート', key='ip'), sg.Checkbox('情報セキュリティマネジメント試験', key='sg')],
-        [sg.Checkbox('応用情報技術者試験', key='ap'), sg.Checkbox('基本情報技術者試験', key='fe')],
-        # Show search button and quit button
+        exam_checkboxes,
+        # Show 'GO' and 'QUIT' button
         [sg.Button('GO', key='go'), sg.Button('QUIT', key='quit')]]
 
     # Instance of GUI with hardcoded icon
@@ -30,22 +48,10 @@ def main():
         elif event == 'go' or 'input' + '_Enter':
             # Only start searching when the search text is there and at least one exam is selected
             if values['word'] and True in values.values():
-
-                # Add the website url depends on the checkbox status
-                ip_url = 'https://www.itpassportsiken.com/kakomon'
-                sg_url = 'https://www.sg-siken.com/kakomon'
-                fe_url = 'https://www.fe-siken.com/kakomon'
-                ap_url = 'https://www.ap-siken.com/kakomon'
-                # TODO: FIX THIS GARBAGE ASS ALGORYTHM TO BUILD THE SEARCH QUERY
-                # Create a new dictionary which does not contain 'word' key value
-                exam = {k: v for k, v in values.items() if type(v) == bool}
-                # Build the query with quotation mark word,
-                # and concatenating each exam(which is still looks like 'ip', 'fe', 'ap')
-                # this query looks like this:
-                # "<search keyword>" site: ip OR fe
-                query = '"' + values['word'] + '" ' + ' OR '.join('site:' + k for k, v in exam.items() if v)
-                # replace each exam keys(such as 'ip') with actual url
-                query = query.replace('ip', ip_url).replace('sg', sg_url).replace('fe', fe_url).replace('ap', ap_url)
+                # Enclose values other than 'AND' and 'OR' with double quotation marks
+                words = re.split('\\s+', values['word'])
+                words = [f'"{word}"' if word not in ['AND', '&', 'OR', '|'] else word for word in words]
+                query = ' '.join(words) + ' ' + ' OR '.join('site:' + e['url'] for e in exams if values[e['key']] is True)
 
                 # Encode the search query and open up default browser
                 query = urllib.parse.quote(query)
