@@ -1,5 +1,17 @@
 # 過去問検索くん
-情報処理技術者試験の過去問を一括検索するツール
+このツールは、情報処理技術者試験の受験者を支援するためのツールです。キーワードと選択した試験に応じて自動でGoogleの検索クエリを生成し、ブラウザを開いて検索します。
 
-## ダウンロードリンク
-[Windows](https://github.com/yuunagi0/kakomon/releases/download/v1.1.0/kakomon.exe)
+## 主な機能
+- AND検索、OR検索
+- 常に最前面にウィンドウを表示する機能
+- ボタンを押すか、Enterキーを押すことで素早く検索することが可能
+
+## 試験対応状況
+- ITパスポート
+- 情報セキュリティマネジメント試験
+- 基本情報技術者試験
+- 応用情報技術者試験
+- 情報処理安全確保支援士試験
+
+## ダウンロード
+[Windows](https://github.com/yuunagi0/kakomon/releases/latest/download/kakomon.exe)
