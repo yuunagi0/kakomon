@@ -60,6 +60,7 @@ def main():
         # Start the search when 'GO' button is pressed
         elif event == 'go' or 'input' + '_Enter':
             # Only start searching when the search text is there and at least one exam is selected
+            del values['pin']
             if values['word'] and True in values.values():
                 # Enclose values other than 'AND' and 'OR' with double quotation marks
                 words = re.split('\\s+', values['word'])
