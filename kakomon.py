@@ -15,7 +15,7 @@ def main():
         {'key': 'sg', 'name': '情報セキュリティマネジメント試験', 'url': 'https://sg-siken.com/kakomon'},
         {'key': 'fe', 'name': '基本情報技術者試験              ', 'url': 'https://fe-siken.com/kakomon'},
         {'key': 'ap', 'name': '応用情報技術者試験              ', 'url': 'https://ap-siken.com/kakomon'},
-        {'key': 'sc', 'name': '情報処理安全確保支援士試験      ', 'url': 'https://www.sc-siken.com//kakomon'}
+        {'key': 'sc', 'name': '情報処理安全確保支援士試験      ', 'url': 'https://sc-siken.com/kakomon'}
     ]
 
     # Show checkboxes for each exam
